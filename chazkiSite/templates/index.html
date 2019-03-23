@@ -13,8 +13,24 @@
 	<link href=" {% static '/bootstrap/css/bootstrap.css'%}" rel="stylesheet">
 
 
+	{% load static %}
+	<script type="text/javascript" src="{%  static 'js/tools.js' %}"></script>
+
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+
 </head>
 <body>
+
+
+<script>
+$(document).ready(function(){
+  $("form").submit(function(){
+    alert("Submitted");
+    console.log("addsa");
+  });
+});
+</script>
 
 
 <div id="leftPanelDiv2" class="split left ">
@@ -25,18 +41,20 @@
 	      <input type="email" class="form-control" id="inputEmail4" placeholder="Nombre">
 	    </div>
 	    <div class="form-group col-md-6">
-	      <label for="inputPassword4">Apellido</label>
-	      <input type="password" class="form-control" id="inputPassword4" placeholder="Apellido">
+	      <label for="inputEmail4">Apellido</label>
+	      <input type="email" class="form-control" id="inputEmail4" placeholder="Apellido">
 	    </div>
 	  </div>
 	  <div class="form-group">
 	    <label for="inputAddress">Address</label>
 	    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
 	  </div>
+	  <!---
 	  <div class="form-group">
 	    <label for="inputAddress2">Address 2</label>
 	    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
 	  </div>
+	-->
 	  <div class="form-row">
 	    <div class="form-group col-md-6">
 	      <label for="inputCity">Edad</label>
@@ -50,41 +68,184 @@
 	        <option>F</option>
 	      </select>
 	    </div>
+	    <!---
 	    <div class="form-group col-md-2">
 	      <label for="inputZip">Zip</label>
 	      <input type="text" class="form-control" id="inputZip">
 	    </div>
+		-->
 	  </div>
 	  <div class="form-group">
+	    
 	    <div class="form-check">
-	      <input class="form-check-input" type="checkbox" id="gridCheck">
+	      <input class="form-check-input" type="checkbox" id="idBebe">
 	      <label class="form-check-label" for="gridCheck">
-	        Check me out
+	        Con un bebe
 	      </label>
 	    </div>
 	    <div class="form-check">
-	      <input class="form-check-input" type="checkbox" id="gridCheck">
+	      <input class="form-check-input" type="checkbox" id="idMascota">
 	      <label class="form-check-label" for="gridCheck">
-	        Check me out
+	        Con mascota
 	      </label>
 	    </div>
 	    <div class="form-check">
-	      <input class="form-check-input" type="checkbox" id="gridCheck">
+	      <input class="form-check-input" type="checkbox" id="idMudanza">
 	      <label class="form-check-label" for="gridCheck">
-	        Check me out
-	      </label>
-	    </div>
-	    <div class="form-check">
-	      <input class="form-check-input" type="checkbox" id="gridCheck">
-	      <label class="form-check-label" for="gridCheck">
-	        Check me out
+	        Carga de mudanza
 	      </label>
 	    </div>
 	  </div>
-	  <button type="submit" class="btn btn-primary">Sign in</button>
+	  <!---
+	  <button id="idboton" type="submit" class="btn btn-primary">Sign in</button>
+		-->
+
+	  <button id="test" onclick="myFunction()">Lista de vehiculos</button>
+
 	</form>
 
 </div>
+
+
+
+
+<script>
+function myFunction() {
+  //document.getElementById("demo").innerHTML = "Hello World";
+  alert("xd");
+  console.log("cargo function");
+  $("#test").on( "click", function () {
+	  	console.log("dasda");
+	  	alert("2");
+
+	  	var para = document.createElement("p");
+		var node = document.createTextNode("This is new.");
+		para.appendChild(node);
+		var element = document.getElementById("leftPanelDiv2");
+		element.appendChild(para);
+
+		value = 3;
+		$.ajax({
+				    url: '/views/obtieneVehiculos',
+				    //type: 'get', // This is the default though, you don't actually need to always mention it
+				    data: {
+		          	'username': value
+		        	},
+		        	success: function(data) {
+		        		//alert("exito");
+
+
+		        		var para = document.createElement("p");
+						//var node = document.createTextNode("This is new.");
+						var node = document.createTextNode(data[0]);
+
+						para.appendChild(node);
+						var element = document.getElementById("leftPanelDiv2");
+						element.appendChild(para);
+		        	}
+
+		}); 
+
+  });
+ 
+
+}
+</script>
+
+
+
+
+<script type="text/javascript">
+	
+	function clickSolicitar(){
+		//document.write("xdddd");
+		console.log("your message here");
+		console.log("soli..");
+	$("#idboton").on( "click", function () {
+			//alert("boundOnPageLoaded Button Clicked");
+			//document.write("xd");
+  			var Values = $( "#" + self.key).val();
+  			res.innerHTML = "número de cluster: "+ Values;
+
+
+  			$("#value").val(Values);
+  			console.log("-------------->");
+  			console.log(self.key );
+
+  			//self.key = self.key.substring(0, self.key.length-1);
+
+
+        	$.ajax({
+			    url: '/views/' + self.key.substring(0, self.key.length-1),
+			    //type: 'get', // This is the default though, you don't actually need to always mention it
+			    data: {
+	          	'username': Values
+	        	},
+
+			    success: function(data) {
+			    	data = JSON.parse(data);
+			    	console.log("+++++++++++++++++++++++++++++++++++");
+	        	console.log(self.key);
+			    	console.log( "entrooooo" );
+			    	//console.log( data);
+			        //alert(data);
+			        var model2 = [ [1,1,0,0],[1,1,0,0],[0,0,1,1],[0,0,1,1] ];
+			        console.log(data["val1"]);
+			        console.log(data["val2"]);
+
+			        //var _container = new VizContainer( "container" );
+			        //_container.draw( { 'dataScatter' : data["val1"] , 'dataMatrix':model2 }   );
+
+
+			        self.m_parent.getVizScatter().draw( data["val1"] );
+			        //self.m_parent.getVizMatrix().draw( data["val2"] );
+			        //self.m_parent.getVizMetric().draw( [{"name":"silhouette","value":data['val3']},
+  					//									{"name":"Sum_Squared_Within","value":data['val4']},
+  					//									{"name":"Sum_Squared_Between","value":data['val5']}] );
+			        console.log("name VizOptions----------------------------------------->");
+			        var id = "IDbarcharSVG".concat(self.m_name);
+			        console.log( id );
+			        if(document.getElementById(id)) document.getElementById(id).outerHTML = "";
+			        self.m_parent.getVizBarChart().draw( [{"metrica":"silhouette","valor":data['val3']},
+  														{"metrica":"SSE","valor":data['val4']},
+  														{"metrica":"SSB","valor":data['val5']}] );
+			        
+
+			        self.m_parent.setCurrentLabels(data["list_labels"]);
+			        self.m_parent.setCurrentMetric( [  data['val3'], data['val4'], data['val5']     ]  );
+
+
+
+
+
+			        /*if(APPLICATION_DATA['modelContainers'].length >0 ){
+			        	console.log("value of models....");
+			        	//console.log(APPLICATION_DATA['modelContainers'][0].getCurrentLabels());
+			    	}*/
+			    },
+			    failure: function(data) { 	
+			        //alert('Got an error dude');
+			    }
+			}); 
+  			//document.write({{model_list}})
+
+        	$("#fontSlider").change(        
+            function () {
+            var Values = $( "#fontSlider" ).val();
+                $("#value").val(Values);
+            }            
+        );
+    	});
+
+
+
+}
+
+</script>
+
+
+
+
 
 </body>
 </html>
